@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Seren</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scopus AU-ID Query Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .year-input {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scopus AU-ID Query Generator</h1>
+    <p>Enter your AU-IDs:</p>
+    <textarea id="input" placeholder="Copy and Paste only AU-IDs here"></textarea>
+    <br>
+    <div class="year-input">
+        <label for="startYear">Start Year:</label>
+        <input type="number" id="startYear" placeholder="e.g., 2000">
+        <label for="endYear">End Year:</label>
+        <input type="number" id="endYear" placeholder="e.g., 2023">
+    </div>
+    <button onclick="generateQuery()">Generate Query</button>
+    <div id="output"></div>
+
+    <script>
+        function generateQuery() {
+            const input = document.getElementById('input').value;
+            const startYear = document.getElementById('startYear').value;
+            const endYear = document.getElementById('endYear').value;
+            const auIds = input.split(/\s+/).filter(id => id.trim() !== '');
+            
+            const queries = auIds.map(id => `AU-ID(${id})`);
+            let fullQuery = queries.join(' OR ');
+            
+            if (startYear && endYear) {
+                fullQuery = `(${fullQuery}) AND PUBYEAR AFT ${startYear-1} AND PUBYEAR BEF ${parseInt(endYear)+1}`;
+            }
+            
+            const output = document.getElementById('output');
+            output.textContent = fullQuery;
+        }
+    </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
